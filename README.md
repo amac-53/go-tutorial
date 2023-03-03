@@ -1,6 +1,13 @@
 # Go tutorial
+- a-tour-of-go（文法とかそのへん）
+- tutorial（ビルドの方法とかも含めて一連の流れ）
 
-## Getting started
+## A Tour of Go
+- Using the tour (3/3)
+- Basics (3/3)
+- Methods and interfaces
+- Concurrency
+## Getting started (tutorial)
 - Getting started (3/1)
 - Create a module (3/1)
 - Getting started with multi-module workspaces
@@ -11,7 +18,6 @@
 - How to write Go code
 - A Tour of Go
 
-## Using and understanding Go
-
 # Ref
 - [Offitial](https://go.dev/learn/)
+- [A Tour of Go](https://go-tour-jp.appspot.com/list)
