@@ -5,8 +5,8 @@
 ## A Tour of Go
 - Using the tour (3/3)
 - Basics (3/3)
-- Methods and interfaces
-- Concurrency
+- Methods and interfaces (3/4, 5)
+- Concurrency (3/6, 7)
 ## Getting started (tutorial)
 - Getting started (3/1)
 - Create a module (3/1)
@@ -16,8 +16,7 @@
 - Getting started with fuzzing
 - Writing Web Applications
 - How to write Go code
-- A Tour of Go
 
 # Ref
-- [Offitial](https://go.dev/learn/)
 - [A Tour of Go](https://go-tour-jp.appspot.com/list)
+- [Offitial](https://go.dev/learn/)

@@ -1,32 +1,35 @@
 # 復習用
+## Overview
+- exercise の回答とわかりやすくかみ砕いたメモを載せて復習に使っていく
+- この md ファイルはメモ用
 - [リンクはここ](https://go-tour-jp.appspot.com/list)
 
-# Using the tour (3/3)
+## Using the tour (3/7 reviewed)
 - Go の formatter として，**gofmt コマンド**があるらしい
 
-# Basics (3/3)
-## Packages, variables, and functions
+## Basics (3/7 reviewed)
+### Packages, variables, and functions
 - デフォルトで main package がエントリーポイントになる
-- package 名についている`math/rand`では rand（最後の要素）がついているものになる（つまりpackage rand で始まるファイルということ）
-- factored import statement(`import ( "fmt" "math" )`みたいに括弧でまとめてインポートする書き方を推奨)
+- package 名は最後の要素になる．例えば，`import "math/rand"`では rand（つまりpackage rand で始まるファイルを import することに相当）
+- **factored import statement**(`import ( "fmt" "math" )`みたいに括弧でまとめてインポートする書き方）を推奨
 - 大文字で始まるモノ以外は外部参照不可能（`math.Pi`で円周率にアクセス可能）
 - 関数は`func 関数名(x 型, y 型) 返り値の型{ }`の形式で書く（**型が後ろであることに注意**）
   - もし型が同じならまとめて最後に書くことも可能（`x, y int`みたいな）
   - 複数の戻り値もok（`func swap(x, y string) (string, string){return y, x}`で交換が可能）
-  - 戻り値に先に名前を付けておくことで，**naked return**が可能（先に返り値の変数と型を書いて，最初に関数内部でアクセスした値をその値だと認識して返す方法）（ただし長い関数では可読性が悪くなるので使用しないこと）（`func split(sum int) (x, y int) { x = sum * 4 / 9, y = sum - x  return}`）
+  - 戻り値に先に名前を付けておくことで，**naked return**（先に返り値の変数と型を書いて，最初に関数内部でアクセスした値をその値だと認識して返す方法）が可能（ただし長い関数では可読性が悪くなるので使用しないこと）（`func split(sum int) (x, y int) { x = sum * 4 / 9; y = sum - x;  return;}`）
 - **変数宣言は var を使用（`var c bool`, `var i int`みたいに型は最後に指定）**
     - 初期化子を与えることも可能（`var i, j int = 1, 2`, `var c = true`などの型省略も可能となる）
     - まとめて初期化も可能（`var (v1 = 3 v2 = "Hello")`）
     - **関数の中では**`:=`で`var`を使わない宣言もできる（関数スコープ外では無理な点に注意）
-- 組み込みの型は，bool, string, int(int8 ~ 64), uint(uint8 ~ 64, uintptr), byte, rune, float32, float64, complex64, complex128
-- **初期値を与えず初期化すると，ゼロ値（0, false, ""）が与えられる**
+- 組み込みの型は，bool, string, int(int8 ~ 64), uint(uint8 ~ 64, uintptr), byte(uint8の別名), rune(int32の別名), float32, float64, complex64, complex128
+- **初期値を与えず初期化すると，ゼロ値（0, false, "", nil）が与えられる**
 - **型変換は明示的に行う必要がある**（`i := 42, f := float64(i), u:=uint(f)`）
 - 初期値を与えた場合，型は省略可能だがその際の型推論は（右辺の値に基づく（元々別で与えられた型がある場合はそれに従う））
-  - **定数宣言**（const）が可能で，char, string, bool, numeric のみで使用可能（`const World = "世界"`，`:=`で宣言は不可能．）
-    - 数値が高精度(`1<<100`も保持できるが，出力はできなさそう)
+- **定数宣言**（const）は，char, string, bool, numeric のみで使用可能（`const World = "世界"`，`:=`で宣言は不可能．）
+  - 数値が高精度(`1<<100`も保持できるが，出力はできなさそう)
 
 
-## Flow control statements: for, if, else, switch and defer (3/3)
+## Flow control statements: for, if, else, switch and defer (3/7 reviewed)
 ### For
 - for 文は基本 C, JS と似ているが`（）`でくくる必要がない点が異なる
     - 条件式さえあれば，初期化と後処理は任意（`sum := 1` `for ; sum < 1000; { sum += sum}`みたいな）
@@ -42,7 +45,7 @@
 ### Switch
 - **switch 文は JS や C++ などの他の switch と似ているが，選択された case 以外を実行しないという点（実行したら break してくれる），case が定数でなくてもよい点で異なる（もちろん if と同じく短い記述を条件の前に書くことができる）**
     - **条件のない`switch {}`という記述により，if-then-else を簡潔に表現可能**（`switch { case time.Now().Hour() < 12: ,..., default: }`）
-- **`defer`をつけると呼び出し元の関数が return するまで遅延させるもの**
+- **`defer`をつけると呼び出し元の関数が return するまで遅延させることが可能**
   - 複数`defer`すると，**stack されるため，LIFO で実行される点に注意**
 
 
@@ -51,15 +54,15 @@
 - **Go ではポインタを扱うことができ，`*T`でポインタ型を表し，ゼロ値は nil**
   - **Ｃ 言語と異なり，ポインタ演算は存在しない**（`i := 42, p := &i`で p が i に対するポインタとなる）
 ### Structs
-- 構造体ももちろん宣言可能（`type Vertex struct { X int Y int}`）
+- 構造体ももちろん宣言可能（`type Vertex struct { X int Y int}`）（型を見てみると，`main.Vertex`だった）
   - `.`を用いてアクセスが可能（`v:= Vertex{1, 2} v.X = 4`）
-  - **構造体ポインタを通してのアクセスも可能だが，正しい文法でアクセスするのは面倒なので簡単な記法が用意されている**（`v := Vertex{1, 2} p := &v`とすると，本来は(*p).Xとアクセスする必要があるが，p.X でアクセスしてもよいことになっている）
+  - **構造体ポインタを通してのアクセスも可能だが，正しい文法でアクセスするのは面倒なので簡単な記法が用意されている**（`v := Vertex{1, 2} p := &v`とすると，本来は`(*p).X`とアクセスする必要があるが，`p.X`でアクセスしてもよいことになっている）
   - **struct リテラルという方法で，初期値を割り当てられる**（`Vertex{X: 1}`とすると，`{1, 0}`と明示的でない Y は0になる．また`p := &Vertex{1, 2}`とすることでポインタが宣言可能）
 
 ### Array (Slice)
 - `[n]T`型として宣言することで配列を宣言できる（長さまで含めて型として扱われる点に注意，例えば`var a [10]int`は型だけ見ると，`[10]int`）
   - `[]T`とすることでスライスを宣言できる（**可変長配列であり，半開区間**）
-  - **実はスライスはデータを格納しておらず，単なる配列の参照なので，データを書き換えると元の配列も変わってしまう**
+  - **実はスライスはデータを格納しておらず，単なる配列の参照なので，データを書き換えると元の配列も変わってしまう**（スライスだけを宣言すると，先に配列が作成されてそれを参照する形になる）
   - スライスの記法は python と同様っぽい
   - **リテラルによる初期化方法は特殊**で，`q := []int{1, 2, 3, 4, 5}`（[]内に数字を入れると配列，入れなければスライスとなる）
     - **構造体スライスの初期化はこんな感じ**（`s := []struct{ i int b bool }{ {1, true}, {2, false}}`）
@@ -71,24 +74,76 @@
   - **range はスライスやマップを１つずつ処理するもので，**`for i, v := range 配列名 { // i or v でアクセス}`のように書く？（必要のない値はアンダースコアで無視できる）
 
 ### Maps
-- 書式は`map[keyの型]valueの型{}`みたいにすればいい（**make を使うことでも作成できる**）（`m := make(map[string]int)`みたいに）
+- 書式は`map[keyの型]valueの型`みたいにすればいい（`var map[string]int`）（**make を使うことでも作成できる**）（`m := make(map[string]int)`みたいに）
 - **初期値は nil で配列と同じ**
-- もしマップに渡す型が単純な型なら型名を省略して単純なリテラルとしてかける
+- **Map リテラルは，`var m = map[string]Vertex{ "Bell": Vertex{40, -74}, "Google": Vertex{37, -122} }`**  
+- もしマップに渡す型が単純な型なら型名を省略して単純なリテラルとしてかける（上記の Vertex を省略可能ということ）
     - 代入，更新(Create, Update)は`m[キー] = 値`
     - 取得(Retrieve)は`値 = m[キー]`
     - 削除(Delete)は`delete(m, キー)`
     - **存在判定は`elem, ok = m[キー]`でキーが存在すれば ok が true にり，そうでなければ false となる**（もし elem, ok が未宣言なら`:=`を使う）
 
 ### function values
-- 関数値として引数，戻り値として渡すことが可能（コールバック関数みたいな機能）
-- Go の関数はクロージャ（fibonacci を closure で実現するエクササイズ，クロージャをちゃんと理解してないと中々厳しそう）
+- 関数値として引数，戻り値として渡すことが可能（コールバック関数みたいな機能）（`hypot := func(x, y float64) float64 { return math.Sqrt(x*x + y*y) }`）
+- Go の関数はクロージャ（）（fibonacci を closure で実現するエクササイズ，クロージャをちゃんと理解してないと中々厳しそう）
 
-# Methods and interfaces (3/4)
+# Methods and interfaces (3/7 reviewed)
+### Methods
+- クラスはないが，メソッドを定義可能で，メソッドは**特別な引数であるレシーバを取る**（これは func と メソッド名の間に書く）（`func (v Vertex) Abs() float64 { return math.Sqrt(v.X*v.X + v.Y*v.Y) }`）
+- **レシーバは同一パッケージ内で宣言している型であればなにでも適用可能**（`type MyFloat float64`で宣言した MyFloat に対してごにょごにょできる）
+- ポインタを受け取る**ポインタレシーバ**を使用できる（**ポインタレシーバは元のデータそのものを書き換えることができるが，ただのレシーバはコピーを受け取りそれを操作するだけ**）
+- **単に関数にポインタを渡すには渡す側をポインタにしてわたし，受け取る側もポインタ宣言をしている必要がある**（`v := Vertex{3, 4}, ScaleFunc(&v, 10)`のようにしないと error）
+- メソッドのポインタレシーバでは上記のものを`v.ScaleFunc(10)`としてわたすことができる（これは`(&v).ScaleFunc(10)`と解釈される）
+- 逆にポインタを受け取らない関数は & で渡してはいけないが，メソッドではこれも許容される（`var v Vertex, v.Abs(), p := &v, p.Abs()`のどちらも ok）
+- ポインタレシーバを使う理由として以下の２つがある：
+  1. レシーバの指す変数自体を変更するため（これは前述している）
+**2. コピーを避けるため（効率的になる）**
+- **一般的には，ポインタレシーバと単純なレシーバを混在させるべきではない**（理由は後にわかる）
 
-# Concurrency (3/5)
+### Interfaces (3/8 予定)
+- メソッドの集まり
+- 型を作って，それに対して実行するメソッドを定義する（明示的に実行を宣言しなくても勝手に実行される点に注意）
+- インターフェースの値は，**値と型のタプル（セット）とみなせる（つまり型を区別して型ごとの値を保持する）**
+- **同じ名前のメソッドを定義しても，レシーバの型にあったメソッドが選択されて実行されるという点に注意**
+- **インターフェースの中にある値が`nil`の場合に備えて，例外処理を書いておくのが一般的**
+- 何か値を保持するインターフェースそのものは`nil`になっていない点に注意
+- 当たり前だが，特定の型で初期化していないインターフェースは，`nil`になるため，どの型でメソッドを実行すればいいのかをインターフェース側が判断できず，エラーになる
+- １つもメソッドをもたないインターフェースとして空インターフェースがある（`interface{}`）
+- あるインターフェースが特定の型を持っているかを確かめる方法として，型アサーションがある（`var i interface{} = "hello", t, ok = i.(string)`とした場合，i が指定した型をもっていれば ok は true となり，t にはその値が入る．もし保持されていない場合は，false が入ったあと，ゼロ値が代入される．ok を受け取らないことも可能だが，もし省略した場合は保持できなければ error を吐くことになる）
+- 型アサーションを直列に判定する方法として「型switch」がある
+- もっともよく使用されるインターフェースの１つに fmt 内臓の`Stringer`がある
+- error 型も組み込みインターフェース
+- Readers は
 
 
+# Concurrency
+- `goroutine`はGoのプログラムを並列実行するための作業単位のこと
+- イメージとしては非常に軽量なスレッド（小メモリ，低コストのスレッド生成・破壊，M:Nモデルによるコンテキストスイッチ抑制）
+- **同じアドレス空間で実行されるので共有メモリのアクセスを同期する必要がある**
+- **goroutine の作り方は`go 関数名(){}` or `go func(){}`とするだけ**
+- `channel`により，**値をやり取りする通路**と**実行の順序**を制御できる
+  - コツ：channel への送信，channel からの受信といった **相手側を主語においた目線で考える**こと
+- `channel`自体は`ch := make(chan 型)`により生成でき，それ自体は`chan 型`という type として扱われる
+- `ch <- v`で v を ch　に送信し，`v := <-ch`で ch から受信した変数を v に割り当てる
+- **通常 channel は双方向だが，`ch := make(<-chan 型)`のようにすることで受信用，`ch := make(chan<- 型)`とすることで送信用のものを作成できる**
+- `ch := make(chan int, サイズ)`のようにすることで channel をバッファのように使用可能
+  - バッファが詰まると，channel への送信をブロック，バッファが空のときには channel からの受信をブロックする
+- channel から受信できる値がないことを示すために`close()`を使用できる（これをすると二度とこの channel に値を送信できない（値がある限りchannel からの受信は可能））
+- 受信できる値がないかつ close の場合は，`v, ok := <- ch`の ok が false になる
+- **`for range`を channel で使用すると，close するまで受信可能**
+- switch と似たものに select が存在し，いずれかの case が実行するまで待機する
+  - これは準備ができた case から順に実行していく
+  - **複数の case が実行可能ならランダムに選択される**
+  - どの case もまだなら default が実行される（ブロックなしに送受信するならこれ）
+- これまでは goroutine 間で通信するために channel を使用してきたが，通信がいらない場合は１つの goroutine のみが変数にアクセスできるようにしてほしい
+- これは mutual exclusion と呼ばれ，mutex と呼ばれる
+- `sync.Mutex`は`Lock`, `Unlock`メソッドを提供し，これを実現している
 
 # おまけ
+- 書式指定子（`%g`, `%+v`）
+- 基本パッケージ（`strings`, `time`, `math`, `math/rand`, `runtime`）
+# 参考
 - [Go言語のPrint・Println・Printfについて](https://www.flyenginer.com/low/go/go%E8%A8%80%E8%AA%9E%E3%81%AEprint%E3%83%BBprintln%E3%83%BBprintf%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6.html)
 - [【Go】strings パッケージ関数まとめ](https://zenn.dev/kou_pg_0131/articles/go-strings-functions)
+- [【Go言語入門】goroutineとは？ 実際に手を動かしながら goroutineの基礎を理解しよう！](https://www.ariseanalytics.com/activities/report/20221005/#:~:text=goroutine%E3%81%AF%E3%80%8CGo%E3%81%A7%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0,%E3%82%B0%E3%83%A9%E3%82%A6%E3%83%B3%E3%83%89%E3%81%A7%E5%8B%95%E4%BD%9C%E3%81%97%E3%81%BE%E3%81%99%E3%80%82)
+- [Goでの並行処理を徹底解剖！](https://zenn.dev/hsaki/books/golang-concurrency)
