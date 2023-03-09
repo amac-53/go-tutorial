@@ -10,7 +10,7 @@
 ## Getting started (tutorial)
 - Getting started (3/1)
 - Create a module (3/1)
-- Getting started with multi-module workspaces
+- Getting started with multi-module workspaces (3/9)
 - Developing a RESTful API with Go and Gin
 - Getting started with generics
 - Getting started with fuzzing
@@ -19,4 +19,4 @@
 
 # Ref
 - [A Tour of Go](https://go-tour-jp.appspot.com/list)
-- [Offitial](https://go.dev/learn/)
+- [Offitial Documentation](https://go.dev/doc/)
